@@ -34,11 +34,12 @@ const Footer = () => {
                   />
                 </Link>
                 <p className="py-5 text-[18px] font-normal text-center text-black md:text-left max-w-[450px] leading-8">
-                  Contact us today to get your free case review. We answer calls
-                  & texts 24/7.
+                  Talent Elevate is a thriving community where innovators,
+                  professionals, and enthusiasts come together to share
+                  knowledge, collaborate, and grow.
                 </p>
 
-                <div className="text-white flex justify-center md:justify-start gap-3 mt-4 md:mt-6 ">
+                <div className="text-black flex justify-center md:justify-start gap-3 mt-4 md:mt-4 ">
                   <Link
                     href="https://www.facebook.com/MelamedLawPLLC"
                     target="_blank"
@@ -56,7 +57,7 @@ const Footer = () => {
                   <Link
                     href="https://x.com/Melamedlawpllc"
                     target="_blank"
-                    className="inline-block p-2 rounded bg-secondary hover:bg-primary   duration-300"
+                    className="inline-block p-2 rounded bg-secondary hover:bg-primary duration-300"
                   >
                     <FaTwitter className="size-5" />
                   </Link>
@@ -146,10 +147,10 @@ const Footer = () => {
                     </div>
                     <div className="flex flex-wrap gap-x-3 gap-y-1">
                       <Link
-                        href="tel:954-529-0695"
+                        href="tel:+1234567890"
                         className="hover:underline duration-300 text-base"
                       >
-                        {`954-529-0695`}
+                        {`+123 456 7890`}
                       </Link>
                       {/* <Link
                         href="tel:+18635996735"
@@ -170,10 +171,10 @@ const Footer = () => {
                     </div>
                     <div className="flex flex-col gap-px">
                       <Link
-                        href="mailto: info@melamedlawpllc.com"
+                        href="mailto: support@mm.com"
                         className="hover:underline duration-300 text-base"
                       >
-                        info@melamedlawpllc.com
+                        support@mm.com
                       </Link>
                       {/* <Link
                         href="mailto:myra@melamedlawpllc.com"
@@ -190,12 +191,12 @@ const Footer = () => {
           <hr className="my-6 border-black sm:mx-auto lg:my-8" />
           <div className="md:flex :items-center sm:justify-between">
             <div className="text-[18px] font-medium text-center text-black">
-              © 2024{" "}
+              © 2025{" "}
               <a
                 href="https://www.melamedlawpllc.com/"
                 className="hover:underline text-secondary"
               >
-                Melamed Law
+                Talent Elevate
               </a>
               . All Rights Reserved.
             </div>

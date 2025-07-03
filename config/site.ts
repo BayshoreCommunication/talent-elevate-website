@@ -17,43 +17,38 @@ export const SITECONFIG = {
     description: "",
     company: [
       {
-        title: "Disclaimers",
-        slug: "/disclaimers",
-      },
-      {
         title: "Privacy Policy",
         slug: "/privacy-policy",
       },
-
       {
-        title: "Terms of Service",
-        slug: "/terms-of-service",
+        title: "Terms of Use",
+        slug: "/terms-of-use",
       },
       {
-        title: "Cookie Policy",
-        slug: "/cookie-policy",
+        title: "Legal",
+        slug: "/legal",
+      },
+      {
+        title: "Site Map",
+        slug: "/site-map",
       },
     ],
     quick_links: [
       {
-        title: "About Us",
+        title: "About us",
         slug: "/about",
       },
       {
-        title: "Practice Areas",
-        slug: "/practice-areas",
+        title: "Services",
+        slug: "/services",
       },
       {
-        title: "Blog",
-        slug: "/blog",
+        title: "Community",
+        slug: "/community",
       },
       {
         title: "Testimonials",
         slug: "/testimonials",
-      },
-      {
-        title: "Contact Us",
-        slug: "/contact",
       },
     ],
   },
