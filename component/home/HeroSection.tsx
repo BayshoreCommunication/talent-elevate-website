@@ -6,7 +6,7 @@ import HomeTabOption from "../shared/ui/HomeTabOption";
 const HeroSection = () => {
   return (
     <section
-      className="relative w-full min-h-screen bg-cover bg-top bg-no-repeat overflow-hidden"
+      className="relative w-full min-h-screen bg-cover bg-top bg-no-repeat overflow-hidden "
       style={{
         backgroundImage: "url('/assets/home/homegradientbg.png')",
         backgroundSize: "cover",
@@ -15,7 +15,7 @@ const HeroSection = () => {
       }}
     >
       {/* Background overlay (optional) */}
-      <div className="absolute inset-0 bg-black/5 z-0"></div>
+      <div className="absolute inset-0 bg-black/0 z-0"></div>
 
       {/* Content container */}
       <div className="relative z-10">
