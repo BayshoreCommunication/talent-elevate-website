@@ -1,5 +1,11 @@
+import UserSignupForm from "@/component/auth/UserSignupForm";
+
 const page = () => {
-  return <div>page</div>;
+  return (
+    <div>
+      <UserSignupForm />
+    </div>
+  );
 };
 
 export default page;

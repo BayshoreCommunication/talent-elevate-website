@@ -1,9 +1,13 @@
-import React from 'react'
+import ContactSection from "@/component/contact/ContactSection";
+import GoogleMapSection from "@/component/contact/GoogleMapSection";
 
 const page = () => {
   return (
-    <div>page</div>
-  )
-}
+    <div>
+      <ContactSection />
+      <GoogleMapSection />
+    </div>
+  );
+};
 
-export default page
+export default page;

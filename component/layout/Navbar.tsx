@@ -23,7 +23,7 @@ const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuItems: MenuItem[] = [
-    { title: "Home", slug: "/home" },
+    { title: "Home", slug: "/" },
     { title: "About Us", slug: "/about-us" },
     { title: "Services", slug: "/services" },
     { title: "Contact Us", slug: "/contact-us" },
