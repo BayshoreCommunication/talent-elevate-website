@@ -1,4 +1,5 @@
 import React from "react";
+import MotionFadeIn from "../shared/ui/MotionFadeIn";
 
 interface ServiceCardProps {
   title: string;
@@ -8,7 +9,7 @@ interface ServiceCardProps {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ title, items, icon }) => {
   return (
-    <div className="rounded-lg border border-gray-300 p-8 hover:shadow-lg transition-shadow duration-300">
+    <div className="rounded-lg border border-gray-300 p-8 hover:shadow-lg transition-shadow duration-300 bg-white flex flex-col h-full">
       <div className="flex items-center mb-4">
         <div className="bg-orange-100 p-4 rounded-lg mr-4">{icon}</div>
       </div>
@@ -174,32 +175,37 @@ const OurCoreServices: React.FC = () => {
   return (
     <div className="bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 mt-16">
       <div className="container mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Our Core Services
-          </h2>
-          <p className="mt-4 text-xl text-gray-600">
-            See how Capable has transformed users' social experiences through
-            their own words.
-          </p>
-        </div>
+        <MotionFadeIn>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              Our Core Services
+            </h2>
+            <p className="mt-4 text-xl text-gray-600">
+              See how Capable has transformed users' social experiences through
+              their own words.
+            </p>
+          </div>
+        </MotionFadeIn>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, index) => (
-            <ServiceCard
-              key={index}
-              title={service.title}
-              items={service.items}
-              icon={service.icon}
-            />
+            <MotionFadeIn key={index} delay={0.1 * index} className="h-full">
+              <ServiceCard
+                title={service.title}
+                items={service.items}
+                icon={service.icon}
+              />
+            </MotionFadeIn>
           ))}
         </div>
 
-        <div className="mt-12 text-center">
-          <button className="bg-[#241836] text-white px-8 py-2.5 rounded-lg text-base font-semibold transition-all duration-300 ease-in-out hover:bg-[#3a2952] active:scale-95 shadow-sm hover:shadow-md">
-            Get Started Today
-          </button>
-        </div>
+        <MotionFadeIn delay={0.2 * services.length}>
+          <div className="mt-12 text-center">
+            <button className="bg-[#241836] text-white px-8 py-2.5 rounded-lg text-base font-semibold transition-all duration-300 ease-in-out hover:bg-[#3a2952] active:scale-95 shadow-sm hover:shadow-md">
+              Get Started Today
+            </button>
+          </div>
+        </MotionFadeIn>
       </div>
     </div>
   );

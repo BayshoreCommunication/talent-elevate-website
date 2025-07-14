@@ -1,4 +1,5 @@
 "use client";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -55,30 +56,82 @@ const Navbar: React.FC = () => {
             alt="Swop Logo"
             width={500}
             height={500}
-            className="w-[80px] md:w-[250px]"
+            className="w-[140px] h-auto md:w-[180px] md:h-auto lg:w-[250px]"
             priority
           />
         </Link>
 
         {/* Desktop Menu */}
-        <nav className="hidden md:flex items-center space-x-6">
-          <div className=" flex items-center">
-            {menuItems.map((item) => (
-              <Link
-                key={item.slug}
-                href={item.slug}
-                className={`px-4 py-1.5 rounded-3xl text-lg font-medium transition-colors ${
-                  pathname === item.slug ? "text-primary" : "text-black"
-                } hover:bg-secon`}
-              >
-                {item.title}
-              </Link>
-            ))}
+        <nav className="hidden md:flex items-center space-x-2 relative">
+          <div className="flex items-center space-x-2 relative">
+            {menuItems.map((item) => {
+              const isActive = pathname === item.slug;
+              return (
+                <motion.div
+                  key={item.slug}
+                  className="relative"
+                  initial={false}
+                  animate={isActive ? { scale: 1.08 } : { scale: 1 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                >
+                  <Link
+                    href={item.slug}
+                    className={
+                      `px-4 py-2 rounded-2xl text-lg font-medium transition-colors duration-200 focus:outline-none ` +
+                      (isActive
+                        ? "text-[#FC641A]"
+                        : "text-black hover:text-[#FC641A] hover:bg-primary/10")
+                    }
+                  >
+                    {item.title}
+                  </Link>
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-underline"
+                      className="absolute left-4 right-4 -bottom-1 h-[3px] bg-[#FC641A] rounded-full"
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 30,
+                      }}
+                    />
+                  )}
+                </motion.div>
+              );
+            })}
           </div>
         </nav>
 
+        {/* Hamburger for Mobile */}
+        <button
+          className="md:hidden flex flex-col justify-center items-center w-10 h-10 focus:outline-none"
+          aria-label="Toggle menu"
+          aria-expanded={isMenuOpen}
+          onClick={() => setIsMenuOpen((open) => !open)}
+        >
+          <span
+            className="block w-6 h-0.5 bg-black mb-1 rounded transition-all duration-300"
+            style={{
+              transform: isMenuOpen ? "rotate(45deg) translateY(7px)" : "none",
+            }}
+          />
+          <span
+            className={`block w-6 h-0.5 bg-black mb-1 rounded transition-all duration-300 ${
+              isMenuOpen ? "opacity-0" : ""
+            }`}
+          />
+          <span
+            className="block w-6 h-0.5 bg-black rounded transition-all duration-300"
+            style={{
+              transform: isMenuOpen
+                ? "rotate(-45deg) translateY(-7px)"
+                : "none",
+            }}
+          />
+        </button>
+
         {/* Actions */}
-        <div className="flex items-center space-x-2 md:space-x-4">
+        <div className="hidden md:flex items-center space-x-2 md:space-x-4">
           {/* Sign In Button – Border Only */}
           <Link
             href="/sign-in"
@@ -98,22 +151,49 @@ const Navbar: React.FC = () => {
       </div>
 
       {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-white px-4 pt-2 pb-4 space-y-2 shadow">
-          {menuItems.map((item) => (
-            <Link
-              key={item.slug}
-              href={item.slug}
-              className={`block text-lg font-medium ${
-                pathname === item.slug ? "text-primary" : "text-black"
-              }`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {item.title}
-            </Link>
-          ))}
-        </div>
-      )}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.25 }}
+            className="md:hidden bg-white px-4 pt-2 pb-4 space-y-2 shadow rounded-b-xl"
+          >
+            {menuItems.map((item) => (
+              <Link
+                key={item.slug}
+                href={item.slug}
+                className={`block text-lg font-medium px-3 py-2 rounded-xl transition-colors duration-200 ${
+                  pathname === item.slug
+                    ? "text-[#FC641A]"
+                    : "text-black hover:text-[#FC641A] hover:bg-primary/10"
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {item.title}
+              </Link>
+            ))}
+            <div className="flex flex-col gap-2 mt-4">
+              <Link
+                href="/sign-in"
+                className="w-full border border-[#241836] bg-transparent text-[#241836] px-8 py-2.5 rounded-lg text-base font-semibold transition-all duration-300 ease-in-out hover:bg-[#241836] hover:text-white active:scale-95 shadow-sm hover:shadow-md text-center"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign In
+              </Link>
+              <Link
+                href="/sign-up"
+                className="w-full bg-[#241836] text-white px-8 py-2.5 rounded-lg text-base font-semibold transition-all duration-300 ease-in-out hover:bg-[#3a2952] active:scale-95 shadow-sm hover:shadow-md text-center"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign Up
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

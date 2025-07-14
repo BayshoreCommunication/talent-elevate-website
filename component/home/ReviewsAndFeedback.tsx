@@ -1,3 +1,5 @@
+"use client";
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 const reviewsList = [
@@ -65,17 +67,38 @@ const ReviewsAndFeedback = () => {
   return (
     <section className="bg-white py-10 md:py-20 ">
       <div className="container mx-auto px-4">
-        <h2 className="text-center text-2xl sm:text-2xl md:text-4xl lg:text-4xl xl:text-5xl font-bold text-primary-foreground ">
+        <motion.h2
+          className="text-center text-2xl sm:text-2xl md:text-4xl lg:text-4xl xl:text-5xl font-bold text-primary-foreground"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
           Reviews and Feedback
-        </h2>
-        <h5 className="text-center text-base sm:text-lg md:text-xl lg:text-2xl font-normal text-primary-foreground mt-4 sm:mt-5">
+        </motion.h2>
+        <motion.h5
+          className="text-center text-base sm:text-lg md:text-xl lg:text-2xl font-normal text-primary-foreground mt-4 sm:mt-5"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1, duration: 0.7 }}
+        >
           See how Capable has transformed users' social experiences through
           <br />
           their own words.
-        </h5>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
+        </motion.h5>
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-10"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.12 } },
+          }}
+        >
           {reviewsList.flat().map((review, index) => (
-            <div
+            <motion.div
               key={index}
               className="bg-white p-6 rounded-xl border border-gray-200 shadow flex flex-col items-center text-center"
               style={{
@@ -84,9 +107,12 @@ const ReviewsAndFeedback = () => {
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
               }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 * index, duration: 0.6 }}
             >
               <div className="flex items-center space-x-4">
-                {" "}
                 <Image
                   width={100}
                   height={100}
@@ -112,9 +138,9 @@ const ReviewsAndFeedback = () => {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth={0}
-                          d="M12 17.27L18.18 21 16.54 13.97 
-              22 9.24 14.81 8.63 12 2 9.19 
-              8.63 2 9.24 7.46 13.97 5.82 21 
+                          d="M12 17.27L18.18 21 16.54 13.97 \
+              22 9.24 14.81 8.63 12 2 9.19 \
+              8.63 2 9.24 7.46 13.97 5.82 21 \
               12 17.27z"
                         />
                       </svg>
@@ -125,9 +151,9 @@ const ReviewsAndFeedback = () => {
               <div className="w-full border-b border-gray-200 my-4" />
 
               <p className="text-base text-gray-600">{review.comment}</p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

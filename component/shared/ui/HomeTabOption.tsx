@@ -57,7 +57,7 @@ export default function HomeTabOption() {
             key={tab.key}
             ref={(el: any) => (tabRefs.current[tab.key] = el)}
             onClick={() => setActiveTab(tab.key)}
-            className={`relative z-10 flex-1 text-center py-4 px-4 rounded-full transition-colors duration-300 cursor-pointer ${
+            className={`relative z-10 flex-1 text-center p-1 md:p-4  rounded-full transition-colors duration-300 cursor-pointer ${
               activeTab === tab.key
                 ? "text-gray-700 font-semibold"
                 : "text-gray-700 font-semibold"
