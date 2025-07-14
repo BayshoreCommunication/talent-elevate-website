@@ -1,9 +1,9 @@
-import RegistrationForm from "@/component/auth/RegistrationForm";
+import UserSigninForm from "@/component/auth/UserSigninForm";
 
 const page = () => {
   return (
     <div>
-      <RegistrationForm />
+      <UserSigninForm />
     </div>
   );
 };

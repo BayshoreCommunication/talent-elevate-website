@@ -20,7 +20,7 @@ const courses = [
   { value: "B.A", label: "B.A" },
 ];
 
-const RegistrationForm = () => {
+const RegistrationFormPartOne = () => {
   const [gender, setGender] = useState("");
 
   const [type, setType] = useState("");
@@ -36,7 +36,7 @@ const RegistrationForm = () => {
       {/* Progress Bar */}
       <div className="w-full max-w-5xl">
         <div className="h-4 bg-gray-200 rounded-full">
-          <div className="h-3 w-full bg-orange-500 rounded-full"></div>
+          <div className="h-4 w-1/2 bg-orange-500 rounded-full"></div>
         </div>
       </div>
 
@@ -243,7 +243,7 @@ const RegistrationForm = () => {
               type="text"
               name="Startyear"
             />
-          </div>{" "}
+          </div>
           <div className="w-full">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               End year
@@ -272,4 +272,4 @@ const RegistrationForm = () => {
   );
 };
 
-export default RegistrationForm;
+export default RegistrationFormPartOne;
