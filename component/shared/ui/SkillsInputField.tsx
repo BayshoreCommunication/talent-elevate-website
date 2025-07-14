@@ -4,6 +4,9 @@ import { IoAdd, IoClose } from "react-icons/io5";
 
 interface SkillsInputFieldProps {
   defaultSkills: string[];
+  selectedSkills: string[];
+  setSelectedSkills: React.Dispatch<React.SetStateAction<string[]>>;
+  moreButtonText: string;
 }
 
 export default function SkillsInputField({
@@ -32,8 +35,6 @@ export default function SkillsInputField({
   };
 
   const allSkills = [...defaultSkills, ...customSkills];
-
-  console.log("Selected Skills: 34", selectedSkills);
 
   return (
     <div className="">

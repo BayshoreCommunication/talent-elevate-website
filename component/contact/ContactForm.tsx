@@ -4,83 +4,96 @@ import { send } from "emailjs-com";
 import { useState } from "react";
 import Swal from "sweetalert2";
 
+interface ContactFormState {
+  fullName: string;
+  lastName: string;
+  phone: string;
+  zipCode: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+interface ContactFormErrors {
+  fullName?: string;
+  lastName?: string;
+  phone?: string;
+  zipCode?: string;
+  email?: string;
+  subject?: string;
+  message?: string;
+}
+
 const ContactForm = () => {
-  const [emailForm, setEmailForm] = useState({
+  const [emailForm, setEmailForm] = useState<ContactFormState>({
     fullName: "",
+    lastName: "",
     phone: "",
+    zipCode: "",
     email: "",
     subject: "",
     message: "",
   });
 
-  const [othersValue, setOthersValue] = useState("");
-
   const [loading, setLoading] = useState(false);
-  const [formErrors, setFormErrors] = useState({});
+  const [formErrors, setFormErrors] = useState<ContactFormErrors>({});
 
-  const validate = (values) => {
-    const errors = {};
+  const validate = (values: ContactFormState): ContactFormErrors => {
+    const errors: ContactFormErrors = {};
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     if (!values.fullName) {
-      errors.fullName = "Name is required!";
+      errors.fullName = "First name is required!";
     }
-
+    if (!values.lastName) {
+      errors.lastName = "Last name is required!";
+    }
     if (!values.email) {
       errors.email = "Email is required!";
     } else if (!regex.test(values.email)) {
       errors.email = "This is not a valid email format!";
     }
-
     if (!values.phone) {
       errors.phone = "Phone number is required!";
     }
-
+    if (!values.zipCode) {
+      errors.zipCode = "Zip code is required!";
+    }
     if (!values.subject) {
       errors.subject = "Subject is required!";
     }
-
     if (!values.message) {
       errors.message = "Message is required!";
     }
     return errors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true); // Start loading
-
-    // Validate the form and set errors
+    setLoading(true);
     const errors = validate(emailForm);
     setFormErrors(errors);
-
-    if (emailForm.caseType === "others") {
-      emailForm.caseType = othersValue;
-    }
-
-    // Check if there are any errors
     if (Object.keys(errors).length === 0) {
       send(
         "service_wj7yeey",
         "template_u74l3rr",
-        emailForm,
+        emailForm as unknown as Record<string, unknown>,
         "2kczyCyop9k9pMsa-"
       )
         .then((response) => {
-          setLoading(false); // Stop loading
+          setLoading(false);
           Swal.fire({
             icon: "success",
             text: "Thank you for reaching out. Your information has been successfully submitted. Our team will respond to your inquiry shortly.",
             confirmButtonColor: "#131b2a",
           }).then(() => {
             setEmailForm({
-              firstName: "",
+              fullName: "",
               lastName: "",
               phone: "",
               zipCode: "",
               email: "",
-              caseType: "",
+              subject: "",
               message: "",
-              flag: "",
             });
           });
         })
@@ -91,20 +104,19 @@ const ContactForm = () => {
             text: "Something went wrong!",
           }).then(() => {
             setEmailForm({
-              firstName: "",
+              fullName: "",
               lastName: "",
               phone: "",
               zipCode: "",
               email: "",
-              caseType: "",
+              subject: "",
               message: "",
-              flag: "",
             });
-            setLoading(false); // Stop loading
+            setLoading(false);
           });
         });
     } else {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
@@ -128,7 +140,7 @@ const ContactForm = () => {
                 });
               }}
             />
-            <span className="text-primary">{formErrors.fullName}</span>
+            <span className="text-red-500">{formErrors.fullName}</span>
           </div>
           {/* Last Name */}
           <div className=" w-full">
@@ -176,6 +188,44 @@ const ContactForm = () => {
               required
               type="text"
               name="zipCode"
+              value={emailForm.zipCode}
+              onChange={(event) => {
+                setEmailForm({
+                  ...emailForm,
+                  zipCode: event.target.value,
+                });
+              }}
+            />
+            <span className="text-red-500">{formErrors.zipCode}</span>
+          </div>
+        </div>
+        <div className="mb-5 w-full flex flex-col md:flex-row gap-5">
+          {/* Email */}
+          <div className="w-full">
+            <input
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-md focus:ring-black focus:border-black block w-full p-2.5 py-2.5 placeholder:text-base pl-5"
+              placeholder="Email"
+              required
+              type="email"
+              name="email"
+              value={emailForm.email}
+              onChange={(event) => {
+                setEmailForm({
+                  ...emailForm,
+                  email: event.target.value,
+                });
+              }}
+            />
+            <span className="text-red-500">{formErrors.email}</span>
+          </div>
+          {/* Subject */}
+          <div className="w-full">
+            <input
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-md focus:ring-black focus:border-black block w-full p-2.5 py-2.5 placeholder:text-base pl-5"
+              placeholder="Subject"
+              required
+              type="text"
+              name="subject"
               value={emailForm.subject}
               onChange={(event) => {
                 setEmailForm({
@@ -187,7 +237,6 @@ const ContactForm = () => {
             <span className="text-red-500">{formErrors.subject}</span>
           </div>
         </div>
-
         {/* Text Area */}
         <div className="mb-5">
           <textarea
@@ -207,11 +256,11 @@ const ContactForm = () => {
           />
           <span className="text-red-500">{formErrors.message}</span>
         </div>
-
         {loading ? (
           <button
             type="submit"
             className="bg-[#241836] text-white px-8 py-2.5 rounded-lg text-base font-semibold transition-all duration-300 ease-in-out hover:bg-[#3a2952] active:scale-95 shadow-sm hover:shadow-md"
+            disabled
           >
             <div role="status">
               <svg
@@ -237,7 +286,6 @@ const ContactForm = () => {
         ) : (
           <button
             type="submit"
-            onClick={handleSubmit}
             className="bg-[#241836] text-white px-8 py-2.5 rounded-lg text-base font-semibold transition-all duration-300 ease-in-out hover:bg-[#3a2952] active:scale-95 shadow-sm hover:shadow-md"
           >
             <div className=" flex items-center justify-center">

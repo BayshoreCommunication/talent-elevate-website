@@ -180,7 +180,7 @@ const RegistrationFormPartOne = () => {
                 type="button"
                 onClick={() => setType(t.value)}
                 className={`rounded-full px-5 py-3 border ${
-                  type === t
+                  type === t.value
                     ? "bg-[#1c1833] text-white"
                     : "text-gray-700 border-gray-300 hover:bg-gray-100"
                 } transition`}

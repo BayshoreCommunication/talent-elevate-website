@@ -171,7 +171,6 @@ const RegistrationFormPartTwo = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-md focus:ring-black focus:border-black block w-full p-2.5 py-2.5 placeholder:text-base pl-5"
             placeholder="Type here"
             required
-            type="text"
             name="currentLocation"
           />
         </div>
