@@ -77,7 +77,7 @@ const donutColors = ["#10B981", "#06B6D4", "#FB7185"];
 const donutLabels = [
   { label: "Pro Lerner", color: "#10B981" },
   { label: "High Achivers", color: "#06B6D4" },
-  // { label: "Needs Improvement", color: "#FB7185" },
+  { label: "Needs Improvement", color: "#FB7185" },
 ];
 
 function AnimatedCount({
@@ -157,11 +157,8 @@ const DashboardOverview = () => {
     <div className="flex flex-wrap gap-6 w-full">
       <div className="grid grid-cols-2 gap-6 flex-1 w-3xl">
         {stats.map((stat, idx) => (
-          <motion.div
+          <div
             key={stat.label}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 * idx, duration: 0.6, type: "spring" }}
             className={`flex items-center rounded-xl shadow p-4 gap-4 min-w-[220px] ${stat.bgcolor}`}
           >
             <div className="flex flex-col items-center justify-center">
@@ -187,7 +184,7 @@ const DashboardOverview = () => {
                 </span>
               </AnimatedCircle>
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
       {/* Overall Performance */}
@@ -223,7 +220,7 @@ const DashboardOverview = () => {
                 strokeWidth="14"
                 fill="none"
               />
-              <motion.circle
+              <circle
                 cx="120"
                 cy="120"
                 r="80"
@@ -231,20 +228,18 @@ const DashboardOverview = () => {
                 strokeWidth="14"
                 fill="none"
                 strokeDasharray={2 * Math.PI * 80}
-                strokeDashoffset={2 * Math.PI * 80}
-                animate={{ strokeDashoffset: 2 * Math.PI * 80 * (1 - 0.6) }}
-                transition={{ duration: 1 }}
+                strokeDashoffset={2 * Math.PI * 80 * (1 - 0.6)}
                 strokeLinecap="round"
               />
             </svg>
             <div
-              className="absolute left-1/2 top-1/2 flex flex-col items-center justify-center"
+              className="absolute left-1/2 top-1/2 flex flex-col items-center justify-center text-center"
               style={{ transform: "translate(-50%, -50%)" }}
             >
               <span className="text-4xl font-bold text-[#06B6D4]">
                 <AnimatedCount to={60} duration={1} />%
               </span>
-              <span className="text-lg font-medium text-gray-700">
+              <span className="text-base font-medium text-gray-700">
                 High Achievers
               </span>
             </div>
