@@ -1,10 +1,33 @@
 "use client";
+import { userSignup } from "@/app/actions/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
 const UserSignupForm = () => {
   const [agree, setAgree] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    const formData = new FormData(e.currentTarget);
+
+    const response = await userSignup(formData);
+
+    console.log("df", response);
+
+    if (response.ok) {
+      // Optionally redirect or show success
+      window.location.href = "/signup-confirm";
+    } else {
+      setError(response.error || "Signup failed. Please try again.");
+    }
+    setLoading(false);
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
@@ -47,13 +70,18 @@ const UserSignupForm = () => {
         </div>
 
         {/* Email Signup Form */}
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          {error && <div className="text-red-600 text-sm mb-2">{error}</div>}
+          {loading && (
+            <div className="text-gray-500 text-sm mb-2">Signing up...</div>
+          )}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Name
             </label>
             <input
               type="text"
+              name="name"
               placeholder="John Smith"
               className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
               required
@@ -66,6 +94,7 @@ const UserSignupForm = () => {
             </label>
             <input
               type="email"
+              name="email"
               placeholder="john@example.com"
               className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
               required
@@ -78,6 +107,7 @@ const UserSignupForm = () => {
             </label>
             <input
               type="password"
+              name="password"
               placeholder="Min. 8 characters"
               className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
               minLength={8}
@@ -104,9 +134,9 @@ const UserSignupForm = () => {
           <button
             type="submit"
             className="w-full bg-[#1C1833] text-white font-medium py-2 rounded-md hover:bg-[#2c254d] transition disabled:opacity-50 cursor-pointer"
-            disabled={!agree}
+            disabled={!agree || loading}
           >
-            Sign Up
+            {loading ? "Signing Up..." : "Sign Up"}
           </button>
         </form>
 

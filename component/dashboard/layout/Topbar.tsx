@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { CgWebsite } from "react-icons/cg";
 import { FaUserCircle } from "react-icons/fa";
 import { FiBell, FiLogOut } from "react-icons/fi";
 
@@ -48,6 +50,13 @@ const Topbar = () => {
         </button>
         {dropdownOpen && (
           <div className="absolute right-0 mt-4 w-40 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-30">
+            <Link
+              className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition flex items-center gap-2"
+              href={"/"}
+            >
+              <CgWebsite className="w-5 h-5" />
+              Website
+            </Link>
             <button
               className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition flex items-center gap-2"
               onClick={() => {
