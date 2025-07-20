@@ -3,77 +3,73 @@ import { credentialLogin, socialAuthLogin } from "@/app/actions/auth";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 const UserSigninForm = () => {
   const [agree, setAgree] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const googleSignin = async () => {
+  // Memoized Google signin function
+  const googleSignin = useCallback(async () => {
     const formData = new FormData();
     formData.set("action", "google");
     try {
       await socialAuthLogin(formData);
     } catch (err) {
-      // Optionally handle error (e.g., show toast)
       console.error("Google sign-in failed", err);
     }
-  };
+  }, []);
 
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const togglePasswordVisibility = () => {
+  // Memoized password visibility toggle
+  const togglePasswordVisibility = useCallback(() => {
     setShowPassword((prev) => !prev);
-  };
+  }, []);
 
-  const router = useRouter();
+  // Memoized form submission
+  const onSubmit = useCallback(
+    async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setError(null);
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setError(null); // Reset error on new attempt
+      const formData = new FormData(event.currentTarget);
+      const email = formData.get("email") as string | null;
+      const password = formData.get("password") as string | null;
 
-    const formData = new FormData(event.currentTarget);
-    const email = formData.get("email") as string | null;
-    const password = formData.get("password") as string | null;
-
-    // Basic validation
-    if (!email || !password) {
-      setError("Both email and password are required.");
-      return;
-    }
-
-    try {
-      setLoading(true); // Start loading state
-
-      // Call login API
-      const response = await credentialLogin(formData);
-      console.log("Login response:", response); // Debug log
-
-      if (response?.error) {
-        setError(response.error); // Set error from response
-      } else if (response?.ok) {
-        // Set OTP flag and user info only if login is successful
-        console.log("Login successful");
-      } else {
-        setError(
-          "Unexpected response from server. Please try again later. [No ok/error in response]"
-        );
+      if (!email || !password) {
+        setError("Both email and password are required.");
+        return;
       }
-    } catch (error: any) {
-      // Handle unexpected errors
-      console.error("Error during login:", error);
-      setError(
-        error?.message ||
-          "An unexpected error occurred. Please try again later."
-      );
-    } finally {
-      setLoading(false); // Stop loading state
-    }
-  };
 
-  return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
-      {/* Header with Logo */}
+      try {
+        setLoading(true);
+        const response = await credentialLogin(formData);
+
+        if (response?.error) {
+          setError(response.error);
+        } else if (response?.ok) {
+          window.location.href = "/";
+        } else {
+          setError("Unexpected response from server. Please try again later.");
+        }
+      } catch (error: any) {
+        console.error("Error during login:", error);
+        setError(
+          error?.message ||
+            "An unexpected error occurred. Please try again later."
+        );
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
+  // Memoized header content
+  const headerContent = useMemo(
+    () => (
       <div className="flex flex-col items-center mb-6">
         <Image
           src="/assets/logo/talent-elevate-logo.png"
@@ -81,6 +77,7 @@ const UserSigninForm = () => {
           width={200}
           height={200}
           className="mb-4 object-contain"
+          priority
         />
         <h2 className="text-2xl font-semibold text-center text-gray-800">
           Hi, Welcome to Talent Elevate!
@@ -89,22 +86,99 @@ const UserSigninForm = () => {
           Create an account and build starting your career
         </p>
       </div>
+    ),
+    []
+  );
+
+  // Memoized Google button
+  const googleButton = useMemo(
+    () => (
+      <button
+        type="button"
+        onClick={googleSignin}
+        className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 text-gray-700 rounded-md py-2 hover:bg-gray-100 transition"
+      >
+        <img
+          src="https://www.svgrepo.com/show/475656/google-color.svg"
+          alt="Google"
+          className="w-5 h-5"
+        />
+        Sign in with Google
+      </button>
+    ),
+    [googleSignin]
+  );
+
+  // Memoized password field with eye icon
+  const passwordField = useMemo(
+    () => (
+      <div>
+        <label className="block text-sm font-medium text-gray-700">
+          Password
+        </label>
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Min. 8 characters"
+            className="w-full mt-1 px-4 py-2 pr-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+            minLength={8}
+            required
+          />
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center"
+          >
+            {showPassword ? (
+              <svg
+                className="h-5 w-5 text-gray-400 hover:text-gray-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="h-5 w-5 text-gray-400 hover:text-gray-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
+              </svg>
+            )}
+          </button>
+        </div>
+      </div>
+    ),
+    [showPassword, togglePasswordVisibility]
+  );
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
+      {headerContent}
 
       {/* Form Container */}
       <div className="w-full max-w-xl p-12 bg-white rounded-2xl shadow-md">
-        {/* Google Signup */}
-        <button
-          type="button"
-          onClick={googleSignin}
-          className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 text-gray-700 rounded-md py-2 hover:bg-gray-100 transition"
-        >
-          <img
-            src="https://www.svgrepo.com/show/475656/google-color.svg"
-            alt="Google"
-            className="w-5 h-5"
-          />
-          Sign in with Google
-        </button>
+        {googleButton}
 
         {/* Separator */}
         <div className="flex items-center my-4">
@@ -130,19 +204,7 @@ const UserSigninForm = () => {
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Min. 8 characters"
-              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-              minLength={8}
-              required
-            />
-          </div>
+          {passwordField}
 
           <div className="flex items-center justify-between">
             <div className="flex items-center py-2">
@@ -151,7 +213,6 @@ const UserSigninForm = () => {
                 checked={agree}
                 onChange={() => setAgree(!agree)}
                 className="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                required
               />
               <label className="ml-2 text-sm text-gray-700">Remember me</label>
             </div>
@@ -165,7 +226,8 @@ const UserSigninForm = () => {
 
           <button
             type="submit"
-            className="w-full bg-[#1C1833] text-white font-medium py-2 rounded-md hover:bg-[#2c254d] transition disabled:opacity-50 flex items-center justify-center gap-2"
+            disabled={loading}
+            className="w-full bg-[#1C1833] text-white font-medium py-2 rounded-md hover:bg-[#2c254d] transition disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
           >
             {loading ? (
               <svg

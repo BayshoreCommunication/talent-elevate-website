@@ -36,7 +36,7 @@ const UserMenu = ({ user }) => {
   return (
     <div className="relative">
       <button
-        className={`flex items-center gap-3 px-3 py-2 rounded-full transition-all duration-200 border border-gray-200 bg-white shadow-sm hover:shadow-md hover:bg-gray-50 focus:outline-none ${
+        className={`flex items-center gap-3 px-3 py-2 rounded-full transition-all duration-200 border border-gray-200 bg-white shadow-sm hover:shadow-md hover:bg-gray-50 focus:outline-none cursor-pointer ${
           open ? "ring-2 ring-[#241836]/30" : ""
         }`}
         onClick={() => setOpen((v) => !v)}
@@ -57,7 +57,7 @@ const UserMenu = ({ user }) => {
       {open && (
         <div className="absolute right-0 mt-2 w-56 bg-white border border-gray-200 rounded-xl shadow-xl z-50 animate-fade-in">
           <button
-            className="flex items-center w-full px-5 py-3 text-gray-700 hover:bg-gray-50 transition rounded-t-xl"
+            className="flex items-center w-full px-5 py-3 text-gray-700 hover:bg-gray-50 transition rounded-t-xl cursor-pointer"
             onClick={() => (window.location.href = "/dashboard")}
           >
             <MdDashboard className="w-5 h-5 mr-3 text-[#241836]" />
@@ -65,7 +65,7 @@ const UserMenu = ({ user }) => {
           </button>
           <div className="border-t border-gray-100" />
           <button
-            className="flex items-center w-full px-5 py-3 text-red-600 hover:bg-gray-50 transition rounded-b-xl"
+            className="flex items-center w-full px-5 py-3 text-red-600 hover:bg-gray-50 transition rounded-b-xl cursor-pointer"
             onClick={handleSignOut}
           >
             <MdLogout className="w-5 h-5 mr-3" />
@@ -256,14 +256,14 @@ const NavbarDetails: React.FC = ({ user }: any) => {
             <div className="flex flex-col gap-2 mt-4">
               <Link
                 href="/sign-in"
-                className="w-full border border-[#241836] bg-transparent text-[#241836] px-8 py-2.5 rounded-lg text-base font-semibold transition-all duration-300 ease-in-out hover:bg-[#241836] hover:text-white active:scale-95 shadow-sm hover:shadow-md text-center"
+                className="w-full border border-[#241836] bg-transparent text-[#241836] px-8 py-2.5 rounded-lg text-base font-semibold transition-all duration-300 ease-in-out hover:bg-[#241836] hover:text-white active:scale-95 shadow-sm hover:shadow-md text-center cursor-pointer"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Sign In
               </Link>
               <Link
                 href="/sign-up"
-                className="w-full bg-[#241836] text-white px-8 py-2.5 rounded-lg text-base font-semibold transition-all duration-300 ease-in-out hover:bg-[#3a2952] active:scale-95 shadow-sm hover:shadow-md text-center"
+                className="w-full bg-[#241836] text-white px-8 py-2.5 rounded-lg text-base font-semibold transition-all duration-300 ease-in-out hover:bg-[#3a2952] active:scale-95 shadow-sm hover:shadow-md text-cente cursor-pointerr"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Sign Up

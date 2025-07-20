@@ -1,5 +1,6 @@
 "use client";
 
+import { Spinner } from "@heroui/react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,7 +24,7 @@ const HeroSection = () => {
       {/* Content container */}
       <div className="relative z-10">
         <motion.div
-          className="bg-primary px-4 sm:px-8 py-3 container mx-auto mt-12 sm:mt-20"
+          className="px-4 sm:px-8 py-3 container mx-auto mt-12 sm:mt-20"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeOut" }}
@@ -38,7 +39,7 @@ const HeroSection = () => {
             <br /> The future of work.
           </motion.h1>
           <motion.h5
-            className="text-center text-base sm:text-lg md:text-xl lg:text-2xl font-normal text-primary-foreground mt-6 sm:mt-8"
+            className="text-center text-base sm:text-lg md:text-xl lg:text-2xl font-normal text-secondary mt-6 sm:mt-8"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.7 }}
