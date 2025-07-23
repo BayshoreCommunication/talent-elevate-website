@@ -25,7 +25,7 @@ const debounce = (func: (...args: any[]) => void, wait: number) => {
   };
 };
 
-const UserMenu = ({ user }) => {
+const UserMenu = ({ user }: { user: any }) => {
   const [open, setOpen] = useState(false);
 
   const handleSignOut = async () => {
@@ -92,7 +92,11 @@ const UserMenu = ({ user }) => {
   );
 };
 
-const NavbarDetails: React.FC = ({ user }: any) => {
+type NavbarDetailsProps = {
+  user?: any;
+};
+
+const NavbarDetails: React.FC<NavbarDetailsProps> = ({ user }) => {
   const pathname = usePathname();
   const [navbarColor, setNavbarColor] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);

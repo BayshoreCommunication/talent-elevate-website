@@ -13,7 +13,7 @@ export const { auth, signIn, signOut } = NextAuth({
         otp: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) {
+        if (!credentials?.email || !credentials.otp) {
           throw new Error("Both email and Password are required.");
         }
 

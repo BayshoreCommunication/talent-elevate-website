@@ -39,7 +39,7 @@ const Footer = () => {
                   knowledge, collaborate, and grow.
                 </p>
 
-                <div className="text-black flex justify-center md:justify-start gap-3 mt-4 md:mt-4 ">
+                <div className="text-white flex justify-center md:justify-start gap-3 mt-4 md:mt-4 ">
                   <Link
                     href="https://www.facebook.com/MelamedLawPLLC"
                     target="_blank"
